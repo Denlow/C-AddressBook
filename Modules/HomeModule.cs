@@ -1,5 +1,7 @@
 using Nancy;
-using AddressBook.Objects;
+using AddressBook;
+using System.Collections.Generic;
+
 
 namespace AddressBook
 {
@@ -9,10 +11,19 @@ namespace AddressBook
     {
       Get["/"] = _ => View["add_new_contact.cshtml"];
       Get["/view_all_contacts"] = _ => {
-        Task newTask = new Task(Request.Query)["newName"]);
-        return View["view_all_contacts.cshtml, newName"]
-      }
-        return View["Contact.cshtml"];
+        List<string> GetName = Name.GetAll();
+        Name newName = new Name(Request.Query["name-added"]);
+        return View["view_all_contacts.cshtml", newName];
       };
-    }
+      Post["/name_added"] = _ => {
+      Address newAddress = new Address (Request.Form["new-name"]);
+      newAddressSave();
+      return View["name_added.cshtml", newName];
+    };
+    Post["/names_cleared"] = _ => {
+      Name.ClearAll();
+      return View["names_cleared.cshtml"];
+    };
   }
+}
+}
